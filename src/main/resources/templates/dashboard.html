@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard · Brightwood</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ── reset & base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+            background: #0a0e27;
+        }
+
+        /* ── background animation ── */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(135deg, #0a0e27, #1a1a4e, #2d1b69);
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: orbFloat 20s ease-in-out infinite;
+        }
+        .orb:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            background: rgba(13, 110, 253, 0.3);
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+        .orb:nth-child(2) {
+            width: 500px;
+            height: 500px;
+            background: rgba(102, 16, 242, 0.25);
+            bottom: -150px;
+            right: -150px;
+            animation-delay: -5s;
+        }
+        .orb:nth-child(3) {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 107, 107, 0.15);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -10s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -50px) scale(1.1); }
+            50% { transform: translate(-30px, 30px) scale(0.9); }
+            75% { transform: translate(30px, 50px) scale(1.05); }
+        }
+
+        .float-icon {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.06);
+            animation: floatIcon 25s linear infinite;
+            text-shadow: 0 0 20px rgba(13, 110, 253, 0.1);
+        }
+        .float-icon:nth-child(4) { left: 5%; top: 10%; animation-duration: 28s; font-size: 4rem; animation-delay: 0s; }
+        .float-icon:nth-child(5) { left: 15%; top: 60%; animation-duration: 22s; font-size: 3rem; animation-delay: 3s; }
+        .float-icon:nth-child(6) { left: 25%; top: 30%; animation-duration: 30s; font-size: 5rem; animation-delay: 6s; }
+        .float-icon:nth-child(7) { left: 35%; top: 75%; animation-duration: 24s; font-size: 3.5rem; animation-delay: 2s; }
+        .float-icon:nth-child(8) { left: 45%; top: 15%; animation-duration: 26s; font-size: 4.5rem; animation-delay: 5s; }
+        .float-icon:nth-child(9) { left: 55%; top: 55%; animation-duration: 23s; font-size: 3rem; animation-delay: 8s; }
+        .float-icon:nth-child(10) { left: 65%; top: 25%; animation-duration: 29s; font-size: 4rem; animation-delay: 4s; }
+        .float-icon:nth-child(11) { left: 75%; top: 70%; animation-duration: 25s; font-size: 3.5rem; animation-delay: 7s; }
+        .float-icon:nth-child(12) { left: 85%; top: 40%; animation-duration: 27s; font-size: 4.5rem; animation-delay: 1s; }
+        .float-icon:nth-child(13) { left: 92%; top: 10%; animation-duration: 21s; font-size: 3rem; animation-delay: 9s; }
+        .float-icon:nth-child(14) { left: 50%; top: 85%; animation-duration: 26s; font-size: 4rem; animation-delay: 5.5s; }
+        .float-icon:nth-child(15) { left: 10%; top: 45%; animation-duration: 24s; font-size: 3.5rem; animation-delay: 3.5s; }
+
+        @keyframes floatIcon {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0; }
+            10% { opacity: 0.6; }
+            50% { transform: translate(80px, -180px) rotate(180deg) scale(1.3); opacity: 0.8; }
+            90% { opacity: 0.6; }
+            100% { transform: translate(-60px, -700px) rotate(360deg) scale(0.8); opacity: 0; }
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+        .star:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+        .star:nth-child(2) { left: 20%; top: 40%; animation-delay: 0.5s; width: 2px; height: 2px; }
+        .star:nth-child(3) { left: 30%; top: 10%; animation-delay: 1s; }
+        .star:nth-child(4) { left: 40%; top: 60%; animation-delay: 1.5s; width: 4px; height: 4px; }
+        .star:nth-child(5) { left: 50%; top: 25%; animation-delay: 2s; }
+        .star:nth-child(6) { left: 60%; top: 70%; animation-delay: 2.5s; width: 2px; height: 2px; }
+        .star:nth-child(7) { left: 70%; top: 15%; animation-delay: 3s; }
+        .star:nth-child(8) { left: 80%; top: 50%; animation-delay: 0.3s; width: 4px; height: 4px; }
+        .star:nth-child(9) { left: 90%; top: 30%; animation-delay: 1.8s; }
+        .star:nth-child(10) { left: 15%; top: 80%; animation-delay: 2.2s; width: 2px; height: 2px; }
+        .star:nth-child(11) { left: 45%; top: 90%; animation-delay: 3.5s; }
+        .star:nth-child(12) { left: 75%; top: 85%; animation-delay: 0.7s; width: 3px; height: 3px; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.3);
+            animation: shoot 6s linear infinite;
+        }
+        .shooting-star:nth-child(13) { left: 10%; top: 10%; animation-delay: 0s; }
+        .shooting-star:nth-child(14) { left: 30%; top: 5%; animation-delay: 3s; width: 3px; height: 3px; }
+        .shooting-star:nth-child(15) { left: 60%; top: 15%; animation-delay: 5s; }
+        .shooting-star:nth-child(16) { left: 80%; top: 8%; animation-delay: 1.5s; width: 2px; height: 2px; }
+
+        @keyframes shoot {
+            0% { transform: translate(0, 0) rotate(45deg); opacity: 0; }
+            5% { opacity: 1; }
+            20% { transform: translate(-200px, 200px) rotate(45deg); opacity: 1; }
+            25% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        .education-ribbon {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            z-index: 10;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff, #5f27cd, #ff6b6b);
+            background-size: 300% 100%;
+            animation: gradientMove 4s linear infinite;
+            box-shadow: 0 2px 20px rgba(13, 110, 253, 0.3);
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 300% 0%; }
+        }
+
+        .main-wrapper {
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── header / nav ── */
+        .nav-header {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 12px 24px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            animation: headerSlide 0.8s ease-out 0.3s both;
+        }
+        @keyframes headerSlide {
+            0% { opacity: 0; transform: translateY(-30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .nav-header-inner {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-icon {
+            background: linear-gradient(135deg, #48dbfb, #5f27cd);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(72, 219, 251, 0.3);
+        }
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.3rem;
+            letter-spacing: -0.5px;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .logo-text span { color: #48dbfb; font-weight: 300; }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 8px;
+            align-items: center;
+        }
+        .nav-tabs a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            font-size: 0.85rem;
+            padding: 6px 14px;
+            border-radius: 40px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+        .nav-tabs a i { font-size: 0.8rem; color: rgba(255, 255, 255, 0.5); }
+        .nav-tabs a:hover { background: rgba(255, 255, 255, 0.1); color: white; transform: translateY(-2px); }
+        .nav-tabs a.active {
+            background: linear-gradient(135deg, #48dbfb, #5f27cd);
+            color: white;
+            box-shadow: 0 4px 20px rgba(72, 219, 251, 0.3);
+        }
+        .nav-tabs a.active i { color: white; }
+
+        .nav-tabs a.add-student-nav {
+            background: rgba(72, 219, 251, 0.15);
+            border: 1px solid rgba(72, 219, 251, 0.2);
+            color: #48dbfb;
+        }
+        .nav-tabs a.add-student-nav i { color: #48dbfb; }
+        .nav-tabs a.add-student-nav:hover {
+            background: rgba(72, 219, 251, 0.25);
+            color: white;
+        }
+
+        .dash-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.8rem;
+        }
+
+        /* ── dashboard cards ── */
+        .dashboard {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 2rem;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+            padding: 1.8rem 2rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: dashboardSlide 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: all 0.2s ease;
+        }
+        .dashboard:hover {
+            border-color: rgba(72, 219, 251, 0.2);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            transform: translateY(-5px);
+        }
+
+        @keyframes dashboardSlide {
+            0% { transform: translateY(40px) scale(0.95); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+        .dashboard-header h1 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .dashboard-header h1 i {
+            color: #48dbfb;
+            font-size: 1.9rem;
+            animation: capSpin 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px rgba(72, 219, 251, 0.3));
+        }
+        @keyframes capSpin {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        .count-badge {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1.2rem;
+            border-radius: 60px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .count-badge i { color: #48dbfb; }
+        .count-badge span {
+            background: linear-gradient(135deg, #48dbfb, #5f27cd);
+            color: white;
+            font-weight: 600;
+            padding: 0.1rem 0.7rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            margin-left: 0.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(72, 219, 251, 0.3);
+        }
+        .count-badge span:hover { transform: scale(1.1); }
+
+        .add-section {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(10px);
+            padding: 1rem 1.8rem;
+            border-radius: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.8rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .add-section .info-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 450;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .add-section .info-text i {
+            color: #48dbfb;
+            font-size: 1.2rem;
+            animation: iconWiggle 2s ease-in-out infinite;
+        }
+        @keyframes iconWiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-15deg); }
+            75% { transform: rotate(15deg); }
+        }
+
+        .btn {
+            border: none;
+            background: white;
+            padding: 0.6rem 1.8rem;
+            border-radius: 60px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            border: 1px solid transparent;
+            color: #1f4e6f;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+        .btn:hover::before { left: 100%; }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #48dbfb, #5f27cd);
+            color: white;
+            box-shadow: 0 4px 20px rgba(72, 219, 251, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 30px rgba(72, 219, 251, 0.4); }
+        .btn-primary:active { transform: scale(0.95); }
+        .btn-primary i { color: white; transition: transform 0.3s ease; }
+        .btn-primary:hover i { transform: rotate(90deg); }
+
+        .count-update {
+            animation: countPulse 0.5s ease-in-out;
+        }
+        @keyframes countPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); background: linear-gradient(135deg, #00d2d3, #1e7e34); }
+        }
+
+        @media (max-width: 780px) {
+            .nav-header-inner { flex-direction: column; align-items: stretch; gap: 12px; }
+            .nav-tabs { justify-content: center; gap: 4px 8px; }
+            .nav-tabs a { font-size: 0.75rem; padding: 4px 10px; }
+            .dashboard { padding: 1.2rem; }
+            .dash-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 680px) {
+            .add-section { flex-direction: column; align-items: stretch; text-align: center; }
+            .add-section .info-text { justify-content: center; }
+            .dashboard-header { flex-direction: column; align-items: start; }
+            .float-icon { font-size: 1.5rem !important; }
+            .orb { width: 200px !important; height: 200px !important; }
+            .logo-text { font-size: 1rem; }
+            .logo-icon { width: 34px; height: 34px; font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ─── background ─── -->
+<div class="bg-animation">
+    <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+    <div class="float-icon"><i class="fas fa-graduation-cap"></i></div>
+    <div class="float-icon"><i class="fas fa-book-open"></i></div>
+    <div class="float-icon"><i class="fas fa-flask"></i></div>
+    <div class="float-icon"><i class="fas fa-microscope"></i></div>
+    <div class="float-icon"><i class="fas fa-dna"></i></div>
+    <div class="float-icon"><i class="fas fa-atom"></i></div>
+    <div class="float-icon"><i class="fas fa-pencil-alt"></i></div>
+    <div class="float-icon"><i class="fas fa-calculator"></i></div>
+    <div class="float-icon"><i class="fas fa-globe-americas"></i></div>
+    <div class="float-icon"><i class="fas fa-certificate"></i></div>
+    <div class="float-icon"><i class="fas fa-university"></i></div>
+    <div class="float-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+    <div class="stars">
+        <div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div>
+    </div>
+    <div class="shooting-star"></div><div class="shooting-star"></div>
+    <div class="shooting-star"></div><div class="shooting-star"></div>
+</div>
+
+<div class="education-ribbon"></div>
+
+<!-- ─── main ─── -->
+<div class="main-wrapper">
+    <header class="nav-header">
+        <div class="nav-header-inner">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+                <div class="logo-text">Brightwood<span>Academy</span></div>
+            </div>
+            <nav class="nav-tabs">
+                <a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="/admin/home"><i class="fas fa-home"></i> Home</a>
+                <a href="/admin/academic"><i class="fas fa-book-open"></i> Academic</a>
+                <a href="/admin/campus"><i class="fas fa-tree"></i> Campus</a>
+                <a href="/admin/addStudent" class="add-student-nav"><i class="fas fa-user-plus"></i> Add Student</a>
+                <a href="/admin/addTeacher"><i class="fas fa-user-plus"></i> Add Teacher</a>
+                <a href="/admin/contact"><i class="fas fa-phone-alt"></i> Contact Us</a>
+                <a href="/admin/admission"><i class="fas fa-door-open"></i> Admission</a>
+                <a href="/admin/enquiry"><i class="fas fa-question-circle"></i> Enquiry</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="dash-grid">
+
+        <!-- STUDENT DASHBOARD -->
+        <div class="dashboard" data-dash="student">
+            <div class="dashboard-header">
+                <h1><i class="fas fa-user-graduate"></i> Student</h1>
+                <div class="count-badge">
+                    <i class="fas fa-users"></i> Total
+                    <span class="countDisplay" id="studentCount" th:text="${studentCount}">0</span>
+                </div>
+            </div>
+            <div class="add-section">
+                <div class="info-text"><i class="fas fa-user-plus"></i> Add a new student</div>
+                <a href="/admin/addStudent" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Add</a>
+            </div>
+        </div>
+
+        <!-- TEACHER DASHBOARD -->
+        <div class="dashboard" data-dash="teacher">
+            <div class="dashboard-header">
+                <h1><i class="fas fa-chalkboard-teacher"></i> Teacher</h1>
+                <div class="count-badge">
+                    <i class="fas fa-users"></i> Total
+                    <span class="countDisplay" id="teacherCount" th:text="${teacherCount}">0</span>
+                </div>
+            </div>
+            <div class="add-section">
+                <div class="info-text"><i class="fas fa-user-plus"></i> Add a new teacher</div>
+                <a href="/admin/addTeacher" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Add</a>
+            </div>
+        </div>
+
+        <!-- ADMISSION DASHBOARD -->
+        <div class="dashboard" data-dash="admission">
+            <div class="dashboard-header">
+                <h1><i class="fas fa-door-open"></i> Admission</h1>
+                <div class="count-badge">
+                    <i class="fas fa-user-check"></i> Total
+                    <span class="countDisplay" id="admissionCount" th:text="${admissionCount}">0</span>
+                </div>
+            </div>
+            <div class="add-section">
+                <div class="info-text"><i class="fas fa-pen"></i> Add admission record</div>
+                <a href="/admin/admission" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Add</a>
+            </div>
+        </div>
+
+        <!-- CONTACT DASHBOARD -->
+        <div class="dashboard" data-dash="contact">
+            <div class="dashboard-header">
+                <h1><i class="fas fa-phone-alt"></i> Contact</h1>
+                <div class="count-badge">
+                    <i class="fas fa-address-book"></i> Total
+                    <span class="countDisplay" id="contactCount" th:text="${contactCount}">0</span>
+                </div>
+            </div>
+            <div class="add-section">
+                <div class="info-text"><i class="fas fa-plus"></i> Add contact entry</div>
+                <a href="/admin/contact" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Add</a>
+            </div>
+        </div>
+
+        <!-- ENQUIRY DASHBOARD -->
+        <div class="dashboard" data-dash="enquiry">
+            <div class="dashboard-header">
+                <h1><i class="fas fa-question-circle"></i> Enquiry</h1>
+                <div class="count-badge">
+                    <i class="fas fa-inbox"></i> Total
+                    <span class="countDisplay" id="enquiryCount" th:text="${enquiryCount}">0</span>
+                </div>
+            </div>
+            <div class="add-section">
+                <div class="info-text"><i class="fas fa-plus"></i> Add enquiry</div>
+                <a href="/admin/enquiry" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Add</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ─── script ─── -->
+<script>
+    (function() {
+        // Function to update all counts from database
+        function updateAllCounts() {
+            const endpoints = {
+                studentCount: '/api/student/count',
+                teacherCount: '/api/teacher/count',
+                admissionCount: '/api/admission/count',
+                contactCount: '/api/contact/count',
+                enquiryCount: '/api/enquiry/count'
+            };
+
+            Object.keys(endpoints).forEach(id => {
+                const element = document.getElementById(id);
+                if (!element) return;
+
+                fetch(endpoints[id])
+                    .then(response => {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data && typeof data.count === 'number') {
+                            const currentValue = parseInt(element.textContent) || 0;
+                            if (data.count !== currentValue) {
+                                element.textContent = data.count;
+                                element.classList.add('count-update');
+                                setTimeout(() => {
+                                    element.classList.remove('count-update');
+                                }, 500);
+                            }
+                        }
+                    })
+                    .catch(error => console.error(`Error fetching ${id}:`, error));
+            });
+        }
+
+        // Update counts when page loads
+        setTimeout(updateAllCounts, 500);
+
+        // Auto-refresh counts every 10 seconds
+        setInterval(updateAllCounts, 10000);
+
+        console.log('✅ Dashboard ready with real-time counts from database');
+    })();
+</script>
+
+</body>
+</html>
