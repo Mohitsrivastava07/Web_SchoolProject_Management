@@ -1,6 +1,6 @@
 # Multi-stage Dockerfile for Spring Boot + Java 21 + Maven
 # Build stage: Maven + Java 21
-FROM maven:3.9.9-eclipse-temurin-21 AS build
+FROM maven:3.9.9-eclipse-temurin-17 AS build
 
 WORKDIR /app
 
@@ -22,7 +22,7 @@ COPY src ./src
 RUN mvn -B clean package -DskipTests
 
 # Runtime stage: Java 21 only
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 
