@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Computer Lab · Main Building</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ----- RESET & BASE ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem 1.5rem 3rem;
+            position: relative;
+            overflow-x: hidden;
+            background: #0a0e27;
+        }
+
+        /* ===== ANIMATED BACKGROUND (same as dashboard) ===== */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(135deg, #0a0e27, #1a1a4e, #2d1b69);
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: orbFloat 20s ease-in-out infinite;
+        }
+        .orb:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            background: rgba(13, 110, 253, 0.3);
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+        .orb:nth-child(2) {
+            width: 500px;
+            height: 500px;
+            background: rgba(102, 16, 242, 0.25);
+            bottom: -150px;
+            right: -150px;
+            animation-delay: -5s;
+        }
+        .orb:nth-child(3) {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 107, 107, 0.15);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -10s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -50px) scale(1.1); }
+            50% { transform: translate(-30px, 30px) scale(0.9); }
+            75% { transform: translate(30px, 50px) scale(1.05); }
+        }
+
+        .float-icon {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.06);
+            animation: floatIcon 25s linear infinite;
+            text-shadow: 0 0 20px rgba(13, 110, 253, 0.1);
+        }
+        .float-icon:nth-child(4) { left: 5%; top: 10%; animation-duration: 28s; font-size: 4rem; animation-delay: 0s; }
+        .float-icon:nth-child(5) { left: 15%; top: 60%; animation-duration: 22s; font-size: 3rem; animation-delay: 3s; }
+        .float-icon:nth-child(6) { left: 25%; top: 30%; animation-duration: 30s; font-size: 5rem; animation-delay: 6s; }
+        .float-icon:nth-child(7) { left: 35%; top: 75%; animation-duration: 24s; font-size: 3.5rem; animation-delay: 2s; }
+        .float-icon:nth-child(8) { left: 45%; top: 15%; animation-duration: 26s; font-size: 4.5rem; animation-delay: 5s; }
+        .float-icon:nth-child(9) { left: 55%; top: 55%; animation-duration: 23s; font-size: 3rem; animation-delay: 8s; }
+        .float-icon:nth-child(10) { left: 65%; top: 25%; animation-duration: 29s; font-size: 4rem; animation-delay: 4s; }
+        .float-icon:nth-child(11) { left: 75%; top: 70%; animation-duration: 25s; font-size: 3.5rem; animation-delay: 7s; }
+        .float-icon:nth-child(12) { left: 85%; top: 40%; animation-duration: 27s; font-size: 4.5rem; animation-delay: 1s; }
+        .float-icon:nth-child(13) { left: 92%; top: 10%; animation-duration: 21s; font-size: 3rem; animation-delay: 9s; }
+        .float-icon:nth-child(14) { left: 50%; top: 85%; animation-duration: 26s; font-size: 4rem; animation-delay: 5.5s; }
+        .float-icon:nth-child(15) { left: 10%; top: 45%; animation-duration: 24s; font-size: 3.5rem; animation-delay: 3.5s; }
+
+        @keyframes floatIcon {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0; }
+            10% { opacity: 0.6; }
+            50% { transform: translate(80px, -180px) rotate(180deg) scale(1.3); opacity: 0.8; }
+            90% { opacity: 0.6; }
+            100% { transform: translate(-60px, -700px) rotate(360deg) scale(0.8); opacity: 0; }
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+        .star:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+        .star:nth-child(2) { left: 20%; top: 40%; animation-delay: 0.5s; width: 2px; height: 2px; }
+        .star:nth-child(3) { left: 30%; top: 10%; animation-delay: 1s; }
+        .star:nth-child(4) { left: 40%; top: 60%; animation-delay: 1.5s; width: 4px; height: 4px; }
+        .star:nth-child(5) { left: 50%; top: 25%; animation-delay: 2s; }
+        .star:nth-child(6) { left: 60%; top: 70%; animation-delay: 2.5s; width: 2px; height: 2px; }
+        .star:nth-child(7) { left: 70%; top: 15%; animation-delay: 3s; }
+        .star:nth-child(8) { left: 80%; top: 50%; animation-delay: 0.3s; width: 4px; height: 4px; }
+        .star:nth-child(9) { left: 90%; top: 30%; animation-delay: 1.8s; }
+        .star:nth-child(10) { left: 15%; top: 80%; animation-delay: 2.2s; width: 2px; height: 2px; }
+        .star:nth-child(11) { left: 45%; top: 90%; animation-delay: 3.5s; }
+        .star:nth-child(12) { left: 75%; top: 85%; animation-delay: 0.7s; width: 3px; height: 3px; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.3);
+            animation: shoot 6s linear infinite;
+        }
+        .shooting-star:nth-child(13) { left: 10%; top: 10%; animation-delay: 0s; }
+        .shooting-star:nth-child(14) { left: 30%; top: 5%; animation-delay: 3s; width: 3px; height: 3px; }
+        .shooting-star:nth-child(15) { left: 60%; top: 15%; animation-delay: 5s; }
+        .shooting-star:nth-child(16) { left: 80%; top: 8%; animation-delay: 1.5s; width: 2px; height: 2px; }
+
+        @keyframes shoot {
+            0% { transform: translate(0, 0) rotate(45deg); opacity: 0; }
+            5% { opacity: 1; }
+            20% { transform: translate(-200px, 200px) rotate(45deg); opacity: 1; }
+            25% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        .education-ribbon {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            z-index: 10;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff, #5f27cd, #ff6b6b);
+            background-size: 300% 100%;
+            animation: gradientMove 4s linear infinite;
+            box-shadow: 0 2px 20px rgba(13, 110, 253, 0.3);
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 300% 0%; }
+        }
+
+        /* ----- CONTAINER (reusable) ----- */
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================================
+                   HEADER & NAVIGATION (glassmorphism)
+                   ============================================================ */
+        .header {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 12px 0;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            width: 100%;
+            margin-bottom: 2.5rem;
+            border-radius: 60px;
+            animation: headerSlide 0.8s ease-out 0.3s both;
+        }
+        @keyframes headerSlide {
+            0% { opacity: 0; transform: translateY(-30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: white;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, #48dbfb, #5f27cd);
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 6px 20px rgba(72, 219, 251, 0.3);
+        }
+
+        .logo-text {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-text span {
+            color: #48dbfb;
+            font-weight: 300;
+            margin-left: 4px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.2rem 0.8rem;
+        }
+
+        .nav-tabs a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 30px;
+            transition: 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            white-space: nowrap;
+        }
+
+        .nav-tabs a i {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-tabs a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-tabs a.active {
+            background: linear-gradient(135deg, #48dbfb, #5f27cd);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(72, 219, 251, 0.3);
+        }
+        .nav-tabs a.active i {
+            color: white;
+        }
+
+        /* responsive nav */
+        @media (max-width: 900px) {
+            .header-inner {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .nav-tabs {
+                justify-content: center;
+                gap: 0.2rem 0.4rem;
+            }
+            .nav-tabs a {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.7rem;
+            }
+            .float-icon {
+                font-size: 1.5rem !important;
+            }
+            .orb {
+                width: 200px !important;
+                height: 200px !important;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .logo-text {
+                font-size: 1.3rem;
+            }
+            .nav-tabs a {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.5rem;
+            }
+            .nav-tabs a i {
+                font-size: 0.7rem;
+            }
+        }
+
+        /* ============================================================
+                   PAGE CONTENT (glassmorphism)
+                   ============================================================ */
+        .page {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 1rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ----- HEADER ----- */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .page-header h1 i {
+            color: #48dbfb;
+            font-size: 2.2rem;
+        }
+
+        .header-badge {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(10px);
+            padding: 0.6rem 1.4rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .header-badge i {
+            color: #48dbfb;
+            font-size: 1.1rem;
+        }
+
+        /* ----- CAROUSEL (glassmorphism) ----- */
+        .carousel-wrapper {
+            position: relative;
+            border-radius: 36px;
+            overflow: hidden;
+            margin-bottom: 2.8rem;
+            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .carousel-track {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: #48dbfb rgba(255, 255, 255, 0.1);
+        }
+
+        .carousel-track::-webkit-scrollbar {
+            height: 6px;
+        }
+        .carousel-track::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .carousel-track::-webkit-scrollbar-thumb {
+            background: #48dbfb;
+            border-radius: 12px;
+        }
+
+        .carousel-slide {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+            position: relative;
+            min-height: 380px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .carousel-slide img {
+            display: block;
+            width: 100%;
+            height: 430px;
+            object-fit: cover;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2.4rem 2rem 1.8rem;
+            background: linear-gradient(0deg, rgba(10, 14, 39, 0.8) 0%, transparent 100%);
+            color: white;
+            pointer-events: none;
+        }
+
+        .slide-caption h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+            letter-spacing: -0.01em;
+        }
+
+        .slide-caption p {
+            font-size: 1.05rem;
+            opacity: 0.9;
+            margin-top: 0.2rem;
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            padding: 0.9rem 0 0.3rem;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .carousel-indicators span {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            transition: 0.3s ease;
+            font-size: 0;
+            cursor: pointer;
+        }
+
+        .carousel-indicators span.active {
+            background: #48dbfb;
+            width: 30px;
+            box-shadow: 0 0 20px rgba(72, 219, 251, 0.3);
+        }
+
+        /* ----- MAIN GRID: computer lab (glassmorphism) ----- */
+        .lab-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2.5rem;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 700px) {
+            .lab-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        /* LEFT COLUMN – main content */
+        .lab-main {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(10px);
+            padding: 2rem 2.2rem 2.2rem;
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: 0.3s ease;
+        }
+
+        .lab-main:hover {
+            border-color: rgba(72, 219, 251, 0.2);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.2);
+        }
+
+        .lab-main h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .lab-main h2 i {
+            color: #48dbfb;
+            font-size: 2rem;
+        }
+
+        .lab-main .subhead {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            border-left: 5px solid #48dbfb;
+            padding-left: 1.2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 0 14px 14px 0;
+            padding: 0.9rem 1.2rem;
+            font-weight: 450;
+        }
+
+        .lab-main p {
+            margin-bottom: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.05rem;
+        }
+
+        .lab-main p strong {
+            color: #48dbfb;
+        }
+
+        /* feature grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin: 2rem 0 1.2rem;
+        }
+
+        @media (max-width: 480px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 22px;
+            padding: 1.3rem 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(72, 219, 251, 0.08);
+            border-color: rgba(72, 219, 251, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-card i {
+            font-size: 2rem;
+            color: #48dbfb;
+            margin-bottom: 0.4rem;
+            display: inline-block;
+            background: rgba(72, 219, 251, 0.1);
+            padding: 0.4rem;
+            border-radius: 16px;
+        }
+
+        .feature-card h4 {
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.1rem;
+            font-size: 1.1rem;
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* stats bar */
+        .lab-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem 2.2rem;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 1.2rem 1.8rem;
+            border-radius: 60px;
+            margin: 1.8rem 0 0.8rem;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .lab-stats span {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .lab-stats i {
+            color: #48dbfb;
+            font-size: 1.2rem;
+        }
+
+        .highlight-box {
+            margin-top: 1.5rem;
+            background: rgba(72, 219, 251, 0.08);
+            padding: 1rem 1.4rem;
+            border-radius: 28px;
+            border-left: 6px solid #48dbfb;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .highlight-box i {
+            color: #48dbfb;
+            font-size: 1.4rem;
+        }
+
+        /* RIGHT PANEL */
+        .lab-side {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(10px);
+            padding: 1.8rem 1.8rem 2rem;
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: 0.3s ease;
+        }
+
+        .lab-side:hover {
+            border-color: rgba(72, 219, 251, 0.2);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.2);
+        }
+
+        .lab-side h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .lab-side h3 i {
+            color: #48dbfb;
+        }
+
+        .side-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.9rem;
+            margin-bottom: 1.4rem;
+            padding: 0.2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .side-item:last-of-type {
+            border-bottom: 0;
+        }
+
+        .side-item i {
+            color: #48dbfb;
+            font-size: 1.2rem;
+            width: 1.8rem;
+            margin-top: 0.1rem;
+            background: rgba(72, 219, 251, 0.08);
+            padding: 0.3rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .side-item strong {
+            display: block;
+            font-weight: 700;
+            color: white;
+        }
+
+        .side-item span {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .divider {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent);
+            margin: 1.5rem 0;
+        }
+
+        .hours-box {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 24px;
+            padding: 1.2rem 1.5rem;
+            border-left: 6px solid #48dbfb;
+            margin-top: 0.8rem;
+        }
+
+        .hours-box p {
+            margin: 0.3rem 0;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.98rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .hours-box .day {
+            font-weight: 600;
+            color: white;
+        }
+
+        .contact-card {
+            margin-top: 1.8rem;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 24px;
+            padding: 1rem 1.4rem;
+            border-left: 6px solid #48dbfb;
+        }
+
+        .contact-card p {
+            margin: 0.2rem 0;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .contact-card i {
+            color: #48dbfb;
+            width: 1.6rem;
+        }
+
+        /* FOOTER */
+        .footer-note {
+            margin-top: 3rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-note i {
+            color: #48dbfb;
+            margin-right: 0.3rem;
+        }
+
+        .footer-note span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        /* responsive */
+        @media (max-width: 500px) {
+            .page-header h1 {
+                font-size: 1.9rem;
+            }
+            .slide-caption h3 {
+                font-size: 1.4rem;
+            }
+            .lab-main,
+            .lab-side {
+                padding: 1.5rem;
+            }
+            .carousel-slide img {
+                height: 260px;
+            }
+            .lab-stats {
+                border-radius: 28px;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== ANIMATED BACKGROUND ===== -->
+<div class="bg-animation">
+    <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+    <div class="float-icon"><i class="fas fa-graduation-cap"></i></div>
+    <div class="float-icon"><i class="fas fa-book-open"></i></div>
+    <div class="float-icon"><i class="fas fa-flask"></i></div>
+    <div class="float-icon"><i class="fas fa-microscope"></i></div>
+    <div class="float-icon"><i class="fas fa-dna"></i></div>
+    <div class="float-icon"><i class="fas fa-atom"></i></div>
+    <div class="float-icon"><i class="fas fa-pencil-alt"></i></div>
+    <div class="float-icon"><i class="fas fa-calculator"></i></div>
+    <div class="float-icon"><i class="fas fa-globe-americas"></i></div>
+    <div class="float-icon"><i class="fas fa-certificate"></i></div>
+    <div class="float-icon"><i class="fas fa-university"></i></div>
+    <div class="float-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+    <div class="stars">
+        <div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div>
+    </div>
+    <div class="shooting-star"></div><div class="shooting-star"></div>
+    <div class="shooting-star"></div><div class="shooting-star"></div>
+</div>
+
+<div class="education-ribbon"></div>
+
+<!-- ============================================================
+HEADER WITH NAVIGATION (glassmorphism)
+============================================================ -->
+<header class="header">
+    <div class="container header-inner">
+        <div class="logo-area">
+            <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+            <div class="logo-text">Brightwood<span>Academy</span></div>
+        </div>
+        <nav class="nav-tabs">
+            <a href="/user/home"><i class="fas fa-home"></i> Home</a>
+            <a href="/user/academic"><i class="fas fa-book-open"></i> Academic</a>
+            <a href="/user/campus" class="active"><i class="fas fa-tree"></i> Campus</a>
+            <a href="/user/contact"><i class="fas fa-phone-alt"></i> Contact</a>
+            <a href="/user/admission"><i class="fas fa-door-open"></i> Admission</a>
+            <a href="/user/enquiry"><i class="fas fa-question-circle"></i> Enquiry</a>
+        </nav>
+    </div>
+</header>
+
+<!-- ============================================================
+PAGE CONTENT
+============================================================ -->
+<div class="page">
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <h1>
+            <i class="fas fa-desktop"></i>
+            Computer Lab
+        </h1>
+        <div class="header-badge">
+            <i class="fas fa-microchip"></i>
+            Next‑gen tech · STEM wing
+        </div>
+    </div>
+
+    <!-- CAROUSEL: 7 computer lab & campus images -->
+    <div class="carousel-wrapper">
+        <div class="carousel-track" id="carouselTrack">
+            <!-- 1 -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Computer lab with modern workstations">
+                <div class="slide-caption"><h3>🖥️ Main computer lab</h3><p>60 high‑performance workstations</p></div>
+            </div>
+            <!-- 2 -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Robotics and coding area">
+                <div class="slide-caption"><h3>🤖 Robotics &amp; AI lab</h3><p>Arduino, Raspberry Pi &amp; drones</p></div>
+            </div>
+            <!-- 3 -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Students working on VR">
+                <div class="slide-caption"><h3>🥽 VR &amp; simulation</h3><p>Immersive learning experiences</p></div>
+            </div>
+            <!-- 4 -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Coding bootcamp">
+                <div class="slide-caption"><h3>💻 Hackathon zone</h3><p>24/7 coding &amp; collaboration</p></div>
+            </div>
+            <!-- 5 -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Main building exterior">
+                <div class="slide-caption"><h3>🏛️ Lab entrance</h3><p>STEM wing, Main Building</p></div>
+            </div>
+            <!-- 6 -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Campus view">
+                <div class="slide-caption"><h3>🌳 Campus setting</h3><p>Labs with natural light</p></div>
+            </div>
+            <!-- 7 -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1576495199011-eb94736d05d6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Aerial campus">
+                <div class="slide-caption"><h3>✈️ Aerial view</h3><p>Tech hub at the heart of campus</p></div>
+            </div>
+        </div>
+
+        <!-- indicators -->
+        <div class="carousel-indicators" id="indicators">
+            <span class="active"></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+    </div>
+
+    <!-- COMPUTER LAB CONTENT GRID -->
+    <div class="lab-grid">
+        <!-- LEFT COLUMN -->
+        <div class="lab-main">
+            <h2><i class="fas fa-code"></i> Computer Science Hub</h2>
+            <div class="subhead">
+                <i class="fas fa-quote-left" style="color:#48dbfb; opacity:0.6;"></i>
+                Where innovation meets education — coding, robotics, AI &amp; beyond.
+            </div>
+
+            <p>
+                The Computer Lab is a state‑of‑the‑art facility located in the STEM wing
+                of the Main Building. It features <strong>60 high‑performance workstations</strong>
+                with dual monitors, dedicated servers, and a <strong>1 Gbps fiber internet</strong>
+                connection. The lab supports programming, data science, 3D modeling, and
+                machine learning projects.
+            </p>
+            <p>
+                In 2023, we expanded with a <strong>Robotics &amp; AI Lab</strong> equipped
+                with Arduino kits, Raspberry Pi clusters, drones, and a VR simulation area.
+                The lab also hosts weekly coding bootcamps, hackathons, and guest lectures
+                from industry professionals.
+            </p>
+
+            <!-- feature cards -->
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <i class="fas fa-laptop-code"></i>
+                    <h4>60 Workstations</h4>
+                    <p>Intel i7, 32GB RAM, dual 4K monitors</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-robot"></i>
+                    <h4>Robotics &amp; AI</h4>
+                    <p>Arduino, Raspberry Pi, drones &amp; sensors</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-vr-cardboard"></i>
+                    <h4>VR &amp; Simulation</h4>
+                    <p>Oculus Rift, immersive learning modules</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h4>Cloud &amp; Data</h4>
+                    <p>AWS, Azure, JupyterHub &amp; big data tools</p>
+                </div>
+            </div>
+
+            <!-- stats -->
+            <div class="lab-stats">
+                <span><i class="fas fa-desktop"></i> 60 stations</span>
+                <span><i class="fas fa-wifi"></i> 1 Gbps fiber</span>
+                <span><i class="fas fa-user-graduate"></i> 150+ students/week</span>
+                <span><i class="fas fa-calendar-check"></i> 12+ annual events</span>
+            </div>
+
+            <div class="highlight-box">
+                <i class="fas fa-rocket"></i>
+                <span><strong style="color:#48dbfb;">24/7 digital access</strong> — remote lab environment available for all students.</span>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="lab-side">
+            <h3><i class="fas fa-cogs"></i> Lab services</h3>
+
+            <div class="side-item">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <div><strong>Tech support</strong><span>On‑site IT staff &amp; tutoring</span></div>
+            </div>
+            <div class="side-item">
+                <i class="fas fa-print"></i>
+                <div><strong>3D printing</strong><span>Ultimaker &amp; resin printers</span></div>
+            </div>
+            <div class="side-item">
+                <i class="fas fa-headset"></i>
+                <div><strong>VR &amp; gaming</strong><span>VR headsets &amp; simulation lab</span></div>
+            </div>
+            <div class="side-item">
+                <i class="fas fa-database"></i>
+                <div><strong>Data storage</strong><span>1TB cloud per student</span></div>
+            </div>
+
+            <hr class="divider" />
+
+            <h3 style="margin-top: 0;"><i class="fas fa-calendar-day"></i> Lab hours</h3>
+            <div class="hours-box">
+                <p><span class="day">Monday – Thursday</span> <span>7:30 AM – 10:00 PM</span></p>
+                <p><span class="day">Friday</span> <span>7:30 AM – 8:00 PM</span></p>
+                <p><span class="day">Saturday</span> <span>9:00 AM – 6:00 PM</span></p>
+                <p><span class="day">Sunday</span> <span>12:00 PM – 6:00 PM</span></p>
+                <p style="margin-top: 0.6rem; font-size: 0.9rem; color: rgba(255,255,255,0.5); border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 0.6rem;">
+                    <i class="fas fa-star" style="color:#48dbfb;"></i> 24/7 remote access via VPN
+                </p>
+            </div>
+
+            <div class="contact-card">
+                <p><i class="fas fa-phone"></i> <strong>IT desk:</strong> +1 (555) 204‑5734</p>
+                <p><i class="fas fa-envelope"></i> <strong>Email:</strong> comp.lab@school.edu</p>
+                <p style="margin-top: 0.3rem;"><i class="fas fa-map-pin"></i> Room 301, STEM wing</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer-note">
+        <span><i class="fas fa-location-dot"></i> STEM wing, Main Building · 1200 Academy Dr</span>
+        <span><i class="fas fa-tree"></i> 12‑acre campus</span>
+        <span><i class="fas fa-wheelchair"></i> Fully accessible</span>
+        <span><i class="fas fa-mug-saucer"></i> Tech café next door</span>
+    </div>
+
+</div>
+
+<!-- script for carousel dots -->
+<script>
+    (function() {
+        const track = document.getElementById('carouselTrack');
+        const indicators = document.querySelectorAll('#indicators span');
+        if (!track || !indicators.length) return;
+
+        function updateActiveDot() {
+            const scrollLeft = track.scrollLeft;
+            const slideWidth = track.querySelector('.carousel-slide')?.clientWidth || 1;
+            const index = Math.round(scrollLeft / slideWidth);
+            const clamped = Math.min(Math.max(index, 0), indicators.length - 1);
+            indicators.forEach((dot, i) => {
+                dot.classList.toggle('active', i === clamped);
+            });
+        }
+
+        track.addEventListener('scroll', () => requestAnimationFrame(updateActiveDot));
+        window.addEventListener('resize', updateActiveDot);
+        setTimeout(updateActiveDot, 120);
+
+        indicators.forEach((dot, idx) => {
+            dot.addEventListener('click', function() {
+                const slide = track.querySelectorAll('.carousel-slide')[idx];
+                if (slide) {
+                    slide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+                }
+            });
+        });
+    })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Admissions - Brightwood Academy</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #0a0e27;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(20px);
+      border-radius: 32px;
+      padding: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .header-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .header-section h1 {
+      color: white;
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-section h1 i {
+      color: #48dbfb;
+    }
+
+    .stats-badge {
+      background: rgba(72, 219, 251, 0.1);
+      padding: 10px 24px;
+      border-radius: 40px;
+      color: #48dbfb;
+      border: 1px solid rgba(72, 219, 251, 0.2);
+      font-weight: 600;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 16px;
+      padding: 0.5rem;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.85rem;
+      min-width: 1600px;
+    }
+
+    thead {
+      background: rgba(72, 219, 251, 0.1);
+      border-bottom: 2px solid rgba(72, 219, 251, 0.2);
+    }
+
+    thead th {
+      padding: 12px 14px;
+      text-align: left;
+      font-weight: 600;
+      color: #48dbfb;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+      background: #0a0e27;
+      z-index: 10;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: 0.2s ease;
+    }
+
+    tbody tr:hover {
+      background: rgba(72, 219, 251, 0.05);
+    }
+
+    tbody td {
+      padding: 10px 14px;
+      color: rgba(255, 255, 255, 0.85);
+      min-width: 80px;
+      max-width: 250px;
+      word-wrap: break-word;
+      word-break: break-word;
+      white-space: normal;
+      vertical-align: middle;
+      line-height: 1.5;
+    }
+
+    /* Specific column widths */
+    tbody td:nth-child(1) { /* ID */
+      min-width: 40px;
+      max-width: 60px;
+    }
+
+    tbody td:nth-child(2) { /* Student Name */
+      min-width: 120px;
+      max-width: 180px;
+    }
+
+    tbody td:nth-child(3) { /* DOB */
+      min-width: 100px;
+      max-width: 120px;
+    }
+
+    tbody td:nth-child(4) { /* Gender */
+      min-width: 80px;
+      max-width: 100px;
+    }
+
+    tbody td:nth-child(5) { /* Nationality */
+      min-width: 80px;
+      max-width: 120px;
+    }
+
+    tbody td:nth-child(6) { /* Grade */
+      min-width: 80px;
+      max-width: 100px;
+    }
+
+    tbody td:nth-child(7) { /* Academic Year */
+      min-width: 100px;
+      max-width: 130px;
+    }
+
+    tbody td:nth-child(8) { /* Parent Name */
+      min-width: 120px;
+      max-width: 180px;
+    }
+
+    tbody td:nth-child(9) { /* Relationship */
+      min-width: 80px;
+      max-width: 100px;
+    }
+
+    tbody td:nth-child(10) { /* Parent Email */
+      min-width: 150px;
+      max-width: 220px;
+    }
+
+    tbody td:nth-child(11) { /* Parent Phone */
+      min-width: 100px;
+      max-width: 130px;
+    }
+
+    tbody td:nth-child(12) { /* Address */
+      min-width: 150px;
+      max-width: 250px;
+    }
+
+    tbody td:nth-child(13) { /* Previous School */
+      min-width: 100px;
+      max-width: 150px;
+    }
+
+    tbody td:nth-child(14) { /* Message */
+      min-width: 100px;
+      max-width: 180px;
+    }
+
+    tbody td:nth-child(15) { /* Inserted At */
+      min-width: 100px;
+      max-width: 120px;
+    }
+
+    tbody td:nth-child(16) { /* Actions */
+      min-width: 120px;
+      max-width: 150px;
+    }
+
+    .badge-grade {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(72, 219, 251, 0.1);
+      color: #48dbfb;
+      border: 1px solid rgba(72, 219, 251, 0.1);
+      white-space: nowrap;
+    }
+
+    .badge-academic-year {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(46, 204, 113, 0.1);
+      color: #2ecc71;
+      border: 1px solid rgba(46, 204, 113, 0.1);
+      white-space: nowrap;
+    }
+
+    .badge-gender {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge-male {
+      background: rgba(52, 152, 219, 0.2);
+      color: #3498db;
+      border: 1px solid rgba(52, 152, 219, 0.2);
+    }
+
+    .badge-female {
+      background: rgba(231, 76, 60, 0.2);
+      color: #e74c3c;
+      border: 1px solid rgba(231, 76, 60, 0.2);
+    }
+
+    .badge-other {
+      background: rgba(155, 89, 182, 0.2);
+      color: #9b59b6;
+      border: 1px solid rgba(155, 89, 182, 0.2);
+    }
+
+    .badge-relationship {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(155, 89, 182, 0.2);
+      color: #9b59b6;
+      border: 1px solid rgba(155, 89, 182, 0.2);
+      white-space: nowrap;
+    }
+
+    .actions {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .actions a, .actions button {
+      padding: 4px 8px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-size: 0.65rem;
+      font-weight: 600;
+      transition: 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-view {
+      background: rgba(72, 219, 251, 0.1);
+      color: #48dbfb;
+      border: 1px solid rgba(72, 219, 251, 0.1);
+    }
+
+    .btn-view:hover {
+      background: rgba(72, 219, 251, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .btn-edit {
+      background: rgba(46, 204, 113, 0.1);
+      color: #2ecc71;
+      border: 1px solid rgba(46, 204, 113, 0.1);
+    }
+
+    .btn-edit:hover {
+      background: rgba(46, 204, 113, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .btn-delete {
+      background: rgba(231, 76, 60, 0.1);
+      color: #e74c3c;
+      border: 1px solid rgba(231, 76, 60, 0.1);
+    }
+
+    .btn-delete:hover {
+      background: rgba(231, 76, 60, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .no-data i {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 1rem;
+      color: rgba(255, 255, 255, 0.1);
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s ease;
+      margin-top: 1.5rem;
+    }
+
+    .back-btn:hover {
+      background: rgba(72, 219, 251, 0.1);
+      border-color: #48dbfb;
+      transform: translateY(-2px);
+    }
+
+    .success-msg {
+      background: rgba(46, 204, 113, 0.1);
+      border: 1px solid rgba(46, 204, 113, 0.2);
+      color: #2ecc71;
+      padding: 12px 20px;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .error-msg {
+      background: rgba(231, 76, 60, 0.1);
+      border: 1px solid rgba(231, 76, 60, 0.2);
+      color: #e74c3c;
+      padding: 12px 20px;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Text wrap for long content */
+    .wrap-text {
+      display: block;
+      word-wrap: break-word;
+      word-break: break-word;
+      white-space: normal;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      .container {
+        padding: 1rem;
+      }
+      .header-section {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header-section h1 {
+        font-size: 1.5rem;
+      }
+      thead th, tbody td {
+        padding: 6px 8px;
+        font-size: 0.75rem;
+      }
+      .actions {
+        flex-direction: column;
+      }
+      tbody td {
+        min-width: 60px !important;
+        max-width: 120px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Flash Messages -->
+  <div th:if="${success}" class="success-msg">
+    <i class="fas fa-check-circle"></i>
+    <span th:text="${success}"></span>
+  </div>
+  <div th:if="${error}" class="error-msg">
+    <i class="fas fa-exclamation-circle"></i>
+    <span th:text="${error}"></span>
+  </div>
+
+  <!-- Header -->
+  <div class="header-section">
+    <h1>
+      <i class="fas fa-door-open"></i>
+      All Admissions
+    </h1>
+    <div class="stats-badge">
+      <i class="fas fa-user-graduate"></i>
+      Total: <span th:text="${totalAdmissions != null ? totalAdmissions : 0}">0</span> Admissions
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrapper">
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Student Name</th>
+        <th>DOB</th>
+        <th>Gender</th>
+        <th>Nationality</th>
+        <th>Grade</th>
+        <th>Academic Year</th>
+        <th>Parent Name</th>
+        <th>Relationship</th>
+        <th>Parent Email</th>
+        <th>Parent Phone</th>
+        <th>Address</th>
+        <th>Previous School</th>
+        <th>Message</th>
+        <th>Inserted At</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:if="${admissions != null and !admissions.isEmpty()}" th:each="admission : ${admissions}">
+        <td><strong th:text="${admission.id}"></strong></td>
+        <td><span class="wrap-text" th:text="${admission.studentName}"></span></td>
+        <td><span class="wrap-text" th:text="${admission.dateOfBirth}"></span></td>
+        <td>
+                        <span class="badge-gender"
+                              th:classappend="${admission.gender.name() == 'Male' ? 'badge-male' : admission.gender.name() == 'Female' ? 'badge-female' : 'badge-other'}"
+                              th:text="${admission.gender}">
+                        </span>
+        </td>
+        <td><span class="wrap-text" th:text="${admission.nationality}"></span></td>
+        <td>
+          <span class="badge-grade" th:text="${admission.grade}"></span>
+        </td>
+        <td>
+          <span class="badge-academic-year" th:text="${admission.academicYear}"></span>
+        </td>
+        <td><span class="wrap-text" th:text="${admission.parentName}"></span></td>
+        <td>
+          <span class="badge-relationship" th:text="${admission.relationShip}"></span>
+        </td>
+        <td><span class="wrap-text" th:text="${admission.parentEmailId}"></span></td>
+        <td><span class="wrap-text" th:text="${admission.parentPhoneNumber}"></span></td>
+        <td><span class="wrap-text" th:text="${admission.address}"></span></td>
+        <td><span class="wrap-text" th:text="${admission.previousSchool}"></span></td>
+        <td><span class="wrap-text" th:text="${admission.additionalMessage}"></span></td>
+        <td><span class="wrap-text" th:text="${admission.insertedAt}"></span></td>
+        <td>
+          <div class="actions">
+            <!-- View Button -->
+            <a href="#" class="btn-view" th:title="'View ' + ${admission.studentName}">
+              <i class="fas fa-eye"></i>
+            </a>
+
+            <!-- Edit Button -->
+            <a th:href="'/admin/customize/admission/update?id=' + ${admission.id}"
+               class="btn-edit" th:title="'Edit ' + ${admission.studentName}">
+              <i class="fas fa-edit"></i>
+            </a>
+
+            <!-- Delete Button -->
+            <form th:action="'/admin/customize/admission/delete'" method="post"
+                  class="delete-form"
+                  th:data-id="${admission.id}"
+                  th:data-name="${admission.studentName}">
+              <input type="hidden" name="deleteAdmission" th:value="${admission.id}" />
+              <button type="submit" class="btn-delete" th:title="'Delete ' + ${admission.studentName}">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      <tr th:if="${admissions == null or admissions.isEmpty()}">
+        <td colspan="16">
+          <div class="no-data">
+            <i class="fas fa-door-open"></i>
+            <p>No admissions found in the system.</p>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Back Button -->
+  <a href="/admin/home" class="back-btn">
+    <i class="fas fa-arrow-left"></i>
+    Back to Dashboard
+  </a>
+</div>
+
+<script>
+  // Handle delete confirmation using data attributes
+  document.querySelectorAll('.delete-form').forEach(function(form) {
+    form.addEventListener('submit', function(e) {
+      var id = this.dataset.id;
+      var name = this.dataset.name;
+      return confirm('Are you sure you want to delete admission for "' + name + '" with ID: ' + id + '?');
+    });
+  });
+</script>
+
+</body>
+</html>

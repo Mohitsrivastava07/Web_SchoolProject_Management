@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Teachers - Brightwood Academy</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #0a0e27;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(20px);
+      border-radius: 32px;
+      padding: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .header-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .header-section h1 {
+      color: white;
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-section h1 i {
+      color: #48dbfb;
+    }
+
+    .stats-badge {
+      background: rgba(72, 219, 251, 0.1);
+      padding: 10px 24px;
+      border-radius: 40px;
+      color: #48dbfb;
+      border: 1px solid rgba(72, 219, 251, 0.2);
+      font-weight: 600;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 16px;
+      padding: 0.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.85rem;
+      min-width: 1200px;
+    }
+
+    thead {
+      background: rgba(72, 219, 251, 0.1);
+      border-bottom: 2px solid rgba(72, 219, 251, 0.2);
+    }
+
+    thead th {
+      padding: 12px 14px;
+      text-align: left;
+      font-weight: 600;
+      color: #48dbfb;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+      background: #0a0e27;
+      z-index: 10;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: 0.2s ease;
+    }
+
+    tbody tr:hover {
+      background: rgba(72, 219, 251, 0.05);
+    }
+
+    tbody td {
+      padding: 10px 14px;
+      color: rgba(255, 255, 255, 0.85);
+      min-width: 80px;
+      max-width: 200px;
+      word-wrap: break-word;
+      word-break: break-word;
+      white-space: normal;
+      vertical-align: top;
+      line-height: 1.4;
+    }
+
+    /* Allow certain columns to be wider */
+    tbody td:nth-child(14) { /* Address column */
+      max-width: 200px;
+      min-width: 150px;
+    }
+
+    tbody td:nth-child(15) { /* Notes column */
+      max-width: 150px;
+      min-width: 100px;
+    }
+
+    tbody td:nth-child(9) { /* Qualification column */
+      max-width: 150px;
+      min-width: 100px;
+    }
+
+    .badge-gender {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-male {
+      background: rgba(52, 152, 219, 0.2);
+      color: #3498db;
+      border: 1px solid rgba(52, 152, 219, 0.2);
+    }
+
+    .badge-female {
+      background: rgba(231, 76, 60, 0.2);
+      color: #e74c3c;
+      border: 1px solid rgba(231, 76, 60, 0.2);
+    }
+
+    .badge-other {
+      background: rgba(155, 89, 182, 0.2);
+      color: #9b59b6;
+      border: 1px solid rgba(155, 89, 182, 0.2);
+    }
+
+    .badge-dept {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(72, 219, 251, 0.1);
+      color: #48dbfb;
+      border: 1px solid rgba(72, 219, 251, 0.1);
+    }
+
+    .badge-designation {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(46, 204, 113, 0.1);
+      color: #2ecc71;
+      border: 1px solid rgba(46, 204, 113, 0.1);
+    }
+
+    .actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .actions a {
+      padding: 4px 10px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-size: 0.7rem;
+      font-weight: 600;
+      transition: 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .actions button {
+      padding: 4px 10px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-size: 0.7rem;
+      font-weight: 600;
+      transition: 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-view {
+      background: rgba(72, 219, 251, 0.1);
+      color: #48dbfb;
+      border: 1px solid rgba(72, 219, 251, 0.1);
+    }
+
+    .btn-view:hover {
+      background: rgba(72, 219, 251, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .btn-edit {
+      background: rgba(46, 204, 113, 0.1);
+      color: #2ecc71;
+      border: 1px solid rgba(46, 204, 113, 0.1);
+    }
+
+    .btn-edit:hover {
+      background: rgba(46, 204, 113, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .btn-delete {
+      background: rgba(231, 76, 60, 0.1);
+      color: #e74c3c;
+      border: 1px solid rgba(231, 76, 60, 0.1);
+    }
+
+    .btn-delete:hover {
+      background: rgba(231, 76, 60, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .no-data i {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 1rem;
+      color: rgba(255, 255, 255, 0.1);
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s ease;
+      margin-top: 1.5rem;
+    }
+
+    .back-btn:hover {
+      background: rgba(72, 219, 251, 0.1);
+      border-color: #48dbfb;
+      transform: translateY(-2px);
+    }
+
+    .success-msg {
+      background: rgba(46, 204, 113, 0.1);
+      border: 1px solid rgba(46, 204, 113, 0.2);
+      color: #2ecc71;
+      padding: 12px 20px;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .error-msg {
+      background: rgba(231, 76, 60, 0.1);
+      border: 1px solid rgba(231, 76, 60, 0.2);
+      color: #e74c3c;
+      padding: 12px 20px;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .certificate-link {
+      color: #48dbfb;
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 40px;
+      background: rgba(72, 219, 251, 0.1);
+      border: 1px solid rgba(72, 219, 251, 0.1);
+      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .certificate-link:hover {
+      background: rgba(72, 219, 251, 0.2);
+    }
+
+    /* Tooltip for truncated text */
+    .truncated-text {
+      position: relative;
+      cursor: help;
+    }
+
+    .truncated-text:hover::after {
+      content: attr(data-fulltext);
+      position: absolute;
+      left: 0;
+      top: 100%;
+      background: rgba(10, 14, 39, 0.95);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      white-space: normal;
+      word-wrap: break-word;
+      max-width: 300px;
+      z-index: 100;
+      border: 1px solid rgba(72, 219, 251, 0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    /* For better mobile view */
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      .container {
+        padding: 1rem;
+      }
+      .header-section {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header-section h1 {
+        font-size: 1.5rem;
+      }
+      thead th, tbody td {
+        padding: 6px 8px;
+        font-size: 0.75rem;
+      }
+      .actions {
+        flex-direction: column;
+      }
+      tbody td {
+        max-width: 120px !important;
+        min-width: 60px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Flash Messages -->
+  <div th:if="${success}" class="success-msg">
+    <i class="fas fa-check-circle"></i>
+    <span th:text="${success}"></span>
+  </div>
+  <div th:if="${error}" class="error-msg">
+    <i class="fas fa-exclamation-circle"></i>
+    <span th:text="${error}"></span>
+  </div>
+
+  <!-- Header -->
+  <div class="header-section">
+    <h1>
+      <i class="fas fa-chalkboard-teacher"></i>
+      All Teachers
+    </h1>
+    <div class="stats-badge">
+      <i class="fas fa-user-graduate"></i>
+      Total: <span th:text="${totalTeachers}">0</span> Teachers
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrapper">
+    <table>
+      <thead>
+      <tr>
+        <th>Employee ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>DOB</th>
+        <th>Gender</th>
+        <th>Nationality</th>
+        <th>Department</th>
+        <th>Designation</th>
+        <th>Qualification</th>
+        <th>Certificate</th>
+        <th>Experience</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Notes</th>
+        <th>Joining Date</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="teacher : ${teachers}">
+        <td><strong th:text="${teacher.employeeId}"></strong></td>
+        <td th:text="${teacher.firstName}"></td>
+        <td th:text="${teacher.lastName}"></td>
+        <td th:text="${teacher.dateOfBirth}"></td>
+        <td>
+                        <span class="badge-gender"
+                              th:classappend="${teacher.gender.name() == 'Male' ? 'badge-male' : teacher.gender.name() == 'Female' ? 'badge-female' : 'badge-other'}"
+                              th:text="${teacher.gender}">
+                        </span>
+        </td>
+        <td th:text="${teacher.nationality}"></td>
+        <td>
+          <span class="badge-dept" th:text="${teacher.department}"></span>
+        </td>
+        <td>
+          <span class="badge-designation" th:text="${teacher.designation}"></span>
+        </td>
+        <td>
+          <span class="truncated-text" th:data-fulltext="${teacher.qualification}" th:text="${teacher.qualification}"></span>
+        </td>
+        <td>
+          <a th:if="${teacher.qualificationCertificate != null}"
+             th:href="'/certificate/view?employeeId=' + ${teacher.employeeId}"
+             class="certificate-link" target="_blank">
+            <i class="fas fa-file-pdf"></i> View
+          </a>
+          <span th:unless="${teacher.qualificationCertificate != null}"
+                style="color: rgba(255,255,255,0.3); font-size: 0.75rem;">
+                            No File
+                        </span>
+        </td>
+        <td th:text="${teacher.experience} + ' yrs'"></td>
+        <td>
+          <span class="truncated-text" th:data-fulltext="${teacher.emailId}" th:text="${teacher.emailId}"></span>
+        </td>
+        <td th:text="${teacher.phoneNumber}"></td>
+        <td>
+          <span class="truncated-text" th:data-fulltext="${teacher.address}" th:text="${teacher.address}"></span>
+        </td>
+        <td>
+          <span class="truncated-text" th:data-fulltext="${teacher.notes}" th:text="${teacher.notes}"></span>
+        </td>
+        <td th:text="${teacher.joiningDate}"></td>
+        <td>
+          <div class="actions">
+            <!-- View Button -->
+            <a href="#" class="btn-view" th:title="'View ' + ${teacher.firstName}">
+              <i class="fas fa-eye"></i>
+            </a>
+
+            <!-- Edit Button -->
+            <a th:href="'/admin/customize/teacher/update?employeeId=' + ${teacher.employeeId}"
+               class="btn-edit" th:title="'Edit ' + ${teacher.firstName}">
+              <i class="fas fa-edit"></i>
+            </a>
+
+            <!-- Delete Button -->
+            <form th:action="'/admin/customize/teacher/delete'" method="post"
+                  class="delete-form"
+                  th:data-empid="${teacher.employeeId}"
+                  th:data-name="${teacher.firstName}">
+              <input type="hidden" name="employeeId" th:value="${teacher.employeeId}" />
+              <button type="submit" class="btn-delete" th:title="'Delete ' + ${teacher.firstName}">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      <tr th:if="${teachers.isEmpty()}">
+        <td colspan="17">
+          <div class="no-data">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <p>No teachers found in the system.</p>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Back Button -->
+  <a href="/admin/home" class="back-btn">
+    <i class="fas fa-arrow-left"></i>
+    Back to Dashboard
+  </a>
+</div>
+
+<script>
+  // Handle delete confirmation using data attributes
+  document.querySelectorAll('.delete-form').forEach(function(form) {
+    form.addEventListener('submit', function(e) {
+      var employeeId = this.dataset.empid;
+      var name = this.dataset.name;
+      return confirm('Are you sure you want to delete teacher "' + name + '" with Employee ID: ' + employeeId + '?');
+    });
+  });
+</script>
+
+</body>
+</html>

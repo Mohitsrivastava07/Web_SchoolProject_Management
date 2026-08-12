@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>School Sports Field · Main Building</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ----- RESET & BASE ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem 1.5rem 3rem;
+            position: relative;
+            overflow-x: hidden;
+            background: #0a0e27;
+        }
+
+        /* ===== ANIMATED BACKGROUND (same as dashboard) ===== */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(135deg, #0a0e27, #1a1a4e, #2d1b69);
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: orbFloat 20s ease-in-out infinite;
+        }
+        .orb:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            background: rgba(13, 110, 253, 0.3);
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+        .orb:nth-child(2) {
+            width: 500px;
+            height: 500px;
+            background: rgba(102, 16, 242, 0.25);
+            bottom: -150px;
+            right: -150px;
+            animation-delay: -5s;
+        }
+        .orb:nth-child(3) {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 107, 107, 0.15);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -10s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -50px) scale(1.1); }
+            50% { transform: translate(-30px, 30px) scale(0.9); }
+            75% { transform: translate(30px, 50px) scale(1.05); }
+        }
+
+        .float-icon {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.06);
+            animation: floatIcon 25s linear infinite;
+            text-shadow: 0 0 20px rgba(13, 110, 253, 0.1);
+        }
+        .float-icon:nth-child(4) { left: 5%; top: 10%; animation-duration: 28s; font-size: 4rem; animation-delay: 0s; }
+        .float-icon:nth-child(5) { left: 15%; top: 60%; animation-duration: 22s; font-size: 3rem; animation-delay: 3s; }
+        .float-icon:nth-child(6) { left: 25%; top: 30%; animation-duration: 30s; font-size: 5rem; animation-delay: 6s; }
+        .float-icon:nth-child(7) { left: 35%; top: 75%; animation-duration: 24s; font-size: 3.5rem; animation-delay: 2s; }
+        .float-icon:nth-child(8) { left: 45%; top: 15%; animation-duration: 26s; font-size: 4.5rem; animation-delay: 5s; }
+        .float-icon:nth-child(9) { left: 55%; top: 55%; animation-duration: 23s; font-size: 3rem; animation-delay: 8s; }
+        .float-icon:nth-child(10) { left: 65%; top: 25%; animation-duration: 29s; font-size: 4rem; animation-delay: 4s; }
+        .float-icon:nth-child(11) { left: 75%; top: 70%; animation-duration: 25s; font-size: 3.5rem; animation-delay: 7s; }
+        .float-icon:nth-child(12) { left: 85%; top: 40%; animation-duration: 27s; font-size: 4.5rem; animation-delay: 1s; }
+        .float-icon:nth-child(13) { left: 92%; top: 10%; animation-duration: 21s; font-size: 3rem; animation-delay: 9s; }
+        .float-icon:nth-child(14) { left: 50%; top: 85%; animation-duration: 26s; font-size: 4rem; animation-delay: 5.5s; }
+        .float-icon:nth-child(15) { left: 10%; top: 45%; animation-duration: 24s; font-size: 3.5rem; animation-delay: 3.5s; }
+
+        @keyframes floatIcon {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0; }
+            10% { opacity: 0.6; }
+            50% { transform: translate(80px, -180px) rotate(180deg) scale(1.3); opacity: 0.8; }
+            90% { opacity: 0.6; }
+            100% { transform: translate(-60px, -700px) rotate(360deg) scale(0.8); opacity: 0; }
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+        .star:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+        .star:nth-child(2) { left: 20%; top: 40%; animation-delay: 0.5s; width: 2px; height: 2px; }
+        .star:nth-child(3) { left: 30%; top: 10%; animation-delay: 1s; }
+        .star:nth-child(4) { left: 40%; top: 60%; animation-delay: 1.5s; width: 4px; height: 4px; }
+        .star:nth-child(5) { left: 50%; top: 25%; animation-delay: 2s; }
+        .star:nth-child(6) { left: 60%; top: 70%; animation-delay: 2.5s; width: 2px; height: 2px; }
+        .star:nth-child(7) { left: 70%; top: 15%; animation-delay: 3s; }
+        .star:nth-child(8) { left: 80%; top: 50%; animation-delay: 0.3s; width: 4px; height: 4px; }
+        .star:nth-child(9) { left: 90%; top: 30%; animation-delay: 1.8s; }
+        .star:nth-child(10) { left: 15%; top: 80%; animation-delay: 2.2s; width: 2px; height: 2px; }
+        .star:nth-child(11) { left: 45%; top: 90%; animation-delay: 3.5s; }
+        .star:nth-child(12) { left: 75%; top: 85%; animation-delay: 0.7s; width: 3px; height: 3px; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.3);
+            animation: shoot 6s linear infinite;
+        }
+        .shooting-star:nth-child(13) { left: 10%; top: 10%; animation-delay: 0s; }
+        .shooting-star:nth-child(14) { left: 30%; top: 5%; animation-delay: 3s; width: 3px; height: 3px; }
+        .shooting-star:nth-child(15) { left: 60%; top: 15%; animation-delay: 5s; }
+        .shooting-star:nth-child(16) { left: 80%; top: 8%; animation-delay: 1.5s; width: 2px; height: 2px; }
+
+        @keyframes shoot {
+            0% { transform: translate(0, 0) rotate(45deg); opacity: 0; }
+            5% { opacity: 1; }
+            20% { transform: translate(-200px, 200px) rotate(45deg); opacity: 1; }
+            25% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        .education-ribbon {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            z-index: 10;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff, #5f27cd, #ff6b6b);
+            background-size: 300% 100%;
+            animation: gradientMove 4s linear infinite;
+            box-shadow: 0 2px 20px rgba(13, 110, 253, 0.3);
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 300% 0%; }
+        }
+
+        /* ----- CONTAINER (reusable) ----- */
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================================
+           HEADER & NAVIGATION (glassmorphism)
+           ============================================================ */
+        .header {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 12px 0;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            width: 100%;
+            margin-bottom: 2rem;
+            border-radius: 60px;
+            animation: headerSlide 0.8s ease-out 0.3s both;
+        }
+        @keyframes headerSlide {
+            0% { opacity: 0; transform: translateY(-30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: white;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, #48dbfb, #5f27cd);
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 6px 20px rgba(72, 219, 251, 0.3);
+        }
+
+        .logo-text {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-text span {
+            color: #48dbfb;
+            font-weight: 300;
+            margin-left: 4px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.2rem 0.8rem;
+        }
+
+        .nav-tabs a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 30px;
+            transition: 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            white-space: nowrap;
+        }
+
+        .nav-tabs a i {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-tabs a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-tabs a.active {
+            background: linear-gradient(135deg, #48dbfb, #5f27cd);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(72, 219, 251, 0.3);
+        }
+        .nav-tabs a.active i {
+            color: white;
+        }
+
+        @media (max-width: 900px) {
+            .header-inner {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .nav-tabs {
+                justify-content: center;
+                gap: 0.2rem 0.4rem;
+            }
+            .nav-tabs a {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.7rem;
+            }
+            .float-icon {
+                font-size: 1.5rem !important;
+            }
+            .orb {
+                width: 200px !important;
+                height: 200px !important;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .logo-text {
+                font-size: 1.3rem;
+            }
+            .nav-tabs a {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.5rem;
+            }
+            .nav-tabs a i {
+                font-size: 0.7rem;
+            }
+        }
+
+        /* ============================================================
+           PAGE CONTENT (glassmorphism) – SPORTS FIELD
+           ============================================================ */
+        .page {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 1rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 0.75rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.4rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .page-header h1 i {
+            color: #48dbfb;
+            font-size: 2rem;
+        }
+
+        .header-badge {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .header-badge i {
+            color: #48dbfb;
+        }
+
+        /* ----- CAROUSEL (glassmorphism) ----- */
+        .carousel-wrapper {
+            position: relative;
+            border-radius: 32px;
+            overflow: hidden;
+            margin-bottom: 2.8rem;
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .carousel-track {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: #48dbfb rgba(255, 255, 255, 0.1);
+        }
+
+        .carousel-track::-webkit-scrollbar {
+            height: 6px;
+        }
+        .carousel-track::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .carousel-track::-webkit-scrollbar-thumb {
+            background: #48dbfb;
+            border-radius: 12px;
+        }
+
+        .carousel-slide {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+            position: relative;
+            min-height: 380px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .carousel-slide img {
+            display: block;
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2.2rem 2rem 1.5rem;
+            background: linear-gradient(0deg, rgba(10, 14, 39, 0.8) 0%, transparent 100%);
+            color: white;
+            pointer-events: none;
+        }
+
+        .slide-caption h3 {
+            font-size: 1.6rem;
+            font-weight: 500;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide-caption p {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-top: 0.1rem;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            padding: 0.9rem 0 0.3rem;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .carousel-indicators span {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            transition: 0.3s ease;
+            font-size: 0;
+            cursor: pointer;
+        }
+
+        .carousel-indicators span.active {
+            background: #48dbfb;
+            width: 26px;
+            box-shadow: 0 0 20px rgba(72, 219, 251, 0.3);
+        }
+
+        /* ----- main grid: sports field focused (glassmorphism) ----- */
+        .sports-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2.5rem;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 700px) {
+            .sports-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        /* left column – sports field details */
+        .sports-main {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(10px);
+            padding: 1.8rem 2rem 2rem;
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: 0.3s ease;
+        }
+
+        .sports-main:hover {
+            border-color: rgba(72, 219, 251, 0.2);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .sports-main h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .sports-main h2 i {
+            color: #48dbfb;
+        }
+
+        .sports-main .subhead {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #48dbfb;
+            padding-left: 1rem;
+            background: rgba(72, 219, 251, 0.08);
+            border-radius: 0 12px 12px 0;
+            padding: 0.8rem 1rem;
+        }
+
+        .sports-main p {
+            margin-bottom: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.05rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.8rem 0 1rem;
+        }
+
+        @media (max-width: 480px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 18px;
+            padding: 1.2rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: 0.2s;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(72, 219, 251, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .feature-card i {
+            font-size: 1.8rem;
+            color: #48dbfb;
+            margin-bottom: 0.3rem;
+            display: inline-block;
+        }
+
+        .feature-card h4 {
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.2rem;
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .sports-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem 2rem;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 1.2rem 1.5rem;
+            border-radius: 60px;
+            margin: 1.5rem 0 0.5rem;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .sports-stats span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .sports-stats i {
+            color: #48dbfb;
+        }
+
+        /* right panel – more sports info */
+        .sports-side {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(10px);
+            padding: 1.8rem 1.8rem 2rem;
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: 0.3s ease;
+        }
+
+        .sports-side:hover {
+            border-color: rgba(72, 219, 251, 0.2);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .sports-side h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .sports-side h3 i {
+            color: #48dbfb;
+        }
+
+        .side-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.9rem;
+            margin-bottom: 1.4rem;
+        }
+
+        .side-item i {
+            color: #48dbfb;
+            font-size: 1.2rem;
+            width: 1.8rem;
+            margin-top: 0.1rem;
+        }
+
+        .side-item strong {
+            display: block;
+            font-weight: 600;
+            color: white;
+        }
+
+        .side-item span {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .divider {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent);
+            margin: 1.5rem 0;
+        }
+
+        .hours-box {
+            background: rgba(72, 219, 251, 0.08);
+            border-radius: 20px;
+            padding: 1.2rem 1.5rem;
+            border-left: 5px solid #48dbfb;
+            margin-top: 1rem;
+        }
+
+        .hours-box p {
+            margin: 0.3rem 0;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.98rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .hours-box .day {
+            font-weight: 500;
+            color: white;
+        }
+
+        .hours-box p:last-child {
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            padding-top: 0.6rem;
+            margin-top: 0.6rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .hours-box p:last-child i {
+            color: #48dbfb;
+        }
+
+        .sports-side .contact-box {
+            margin-top: 1.8rem;
+            background: rgba(72, 219, 251, 0.08);
+            border-radius: 20px;
+            padding: 0.9rem 1.2rem;
+            border-left: 5px solid #48dbfb;
+        }
+
+        .sports-side .contact-box p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .sports-side .contact-box i {
+            color: #48dbfb;
+        }
+
+        .footer-note {
+            margin-top: 3rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-note i {
+            color: #48dbfb;
+            margin-right: 0.3rem;
+        }
+
+        .footer-note span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        @media (max-width: 500px) {
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            .slide-caption h3 {
+                font-size: 1.3rem;
+            }
+            .sports-main,
+            .sports-side {
+                padding: 1.5rem;
+            }
+            .carousel-slide img {
+                height: 280px;
+            }
+            .sports-stats {
+                border-radius: 28px;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== ANIMATED BACKGROUND ===== -->
+<div class="bg-animation">
+    <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+    <div class="float-icon"><i class="fas fa-graduation-cap"></i></div>
+    <div class="float-icon"><i class="fas fa-book-open"></i></div>
+    <div class="float-icon"><i class="fas fa-flask"></i></div>
+    <div class="float-icon"><i class="fas fa-microscope"></i></div>
+    <div class="float-icon"><i class="fas fa-dna"></i></div>
+    <div class="float-icon"><i class="fas fa-atom"></i></div>
+    <div class="float-icon"><i class="fas fa-pencil-alt"></i></div>
+    <div class="float-icon"><i class="fas fa-calculator"></i></div>
+    <div class="float-icon"><i class="fas fa-globe-americas"></i></div>
+    <div class="float-icon"><i class="fas fa-certificate"></i></div>
+    <div class="float-icon"><i class="fas fa-university"></i></div>
+    <div class="float-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+    <div class="stars">
+        <div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div>
+        <div class="star"></div><div class="star"></div><div class="star"></div>
+    </div>
+    <div class="shooting-star"></div><div class="shooting-star"></div>
+    <div class="shooting-star"></div><div class="shooting-star"></div>
+</div>
+
+<div class="education-ribbon"></div>
+
+<!-- ============================================================
+HEADER WITH NAVIGATION (glassmorphism)
+============================================================ -->
+<header class="header">
+    <div class="container header-inner">
+        <div class="logo-area">
+            <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+            <div class="logo-text">Brightwood<span>Academy</span></div>
+        </div>
+        <nav class="nav-tabs">
+            <a href="/admin/dashboard"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="/admin/home"><i class="fas fa-home"></i> Home</a>
+            <a href="/admin/academic"><i class="fas fa-book-open"></i> Academic</a>
+            <a href="/admin/campus" class="active"><i class="fas fa-tree"></i> Campus</a>
+            <a href="/admin/addStudent"><i class="fas fa-user-plus"></i> Add Student</a>
+            <a href="/admin/addTeacher"><i class="fas fa-chalkboard-teacher"></i> Add Teacher</a>
+            <a href="/admin/contact"><i class="fas fa-phone-alt"></i> Contact</a>
+            <a href="/admin/admission"><i class="fas fa-door-open"></i> Admission</a>
+            <a href="/admin/enquiry"><i class="fas fa-question-circle"></i> Enquiry</a>
+        </nav>
+    </div>
+</header>
+
+<!-- ============================================================
+PAGE CONTENT
+============================================================ -->
+<div class="page">
+
+    <!-- header -->
+    <div class="page-header">
+        <h1>
+            <i class="fas fa-futbol"></i>
+            Sports Field · Main Building
+        </h1>
+        <div class="header-badge">
+            <i class="fas fa-flag"></i>
+            Est. 1926 · Athletic complex
+        </div>
+    </div>
+
+    <!-- CAROUSEL: 7 sports field & campus images -->
+    <div class="carousel-wrapper">
+        <div class="carousel-track" id="carouselTrack">
+            <!-- 1 -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Soccer field with green grass">
+                <div class="slide-caption"><h3>⚽ Main pitch</h3><p>Full-size soccer / football field</p></div>
+            </div>
+            <!-- 2 -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Track and field stadium">
+                <div class="slide-caption"><h3>🏃 Track &amp; field</h3><p>400m running track &amp; jump areas</p></div>
+            </div>
+            <!-- 3 -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1534430480872-349aac9f1b40?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Basketball courts">
+                <div class="slide-caption"><h3>🏀 Basketball courts</h3><p>Outdoor courts &amp; practice area</p></div>
+            </div>
+            <!-- 4 -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1524015364697-bab17575971e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Tennis courts">
+                <div class="slide-caption"><h3>🎾 Tennis courts</h3><p>4 regulation clay &amp; hard courts</p></div>
+            </div>
+            <!-- 5 -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Gymnasium interior">
+                <div class="slide-caption"><h3>🏐 Indoor gym</h3><p>Volleyball, basketball &amp; badminton</p></div>
+            </div>
+            <!-- 6 -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1577221084712-45b0445d2b00?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Aerial view of sports complex">
+                <div class="slide-caption"><h3>✈️ Aerial view</h3><p>Full athletic complex with fields</p></div>
+            </div>
+            <!-- 7 -->
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Evening game under lights">
+                <div class="slide-caption"><h3>🌙 Night games</h3><p>Floodlit fields for evening matches</p></div>
+            </div>
+        </div>
+
+        <!-- indicators -->
+        <div class="carousel-indicators" id="indicators">
+            <span class="active"></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+    </div>
+
+    <!-- SPORTS FIELD CONTENT GRID -->
+    <div class="sports-grid">
+        <!-- left column: detailed sports info -->
+        <div class="sports-main">
+            <h2><i class="fas fa-trophy"></i> The Sports Field</h2>
+            <div class="subhead">
+                <i class="fas fa-quote-left" style="color:#48dbfb; opacity:0.6;"></i>
+                Where teamwork, discipline, and school spirit come alive.
+            </div>
+
+            <p>
+                The sports field complex is a premier athletic facility located just behind
+                the Main Building. It features a <strong style="color:#48dbfb;">full-size soccer/football pitch</strong>
+                with natural grass, a <strong style="color:#48dbfb;">400m 8-lane track</strong>, and dedicated areas
+                for field events. The complex also includes outdoor basketball and tennis
+                courts, all surrounded by a scenic campus backdrop.
+            </p>
+            <p>
+                In 2021, the field underwent a major upgrade with new <strong style="color:#48dbfb;">LED floodlights</strong>,
+                a <strong style="color:#48dbfb;">digital scoreboard</strong>, and enhanced drainage systems, making
+                it one of the most modern school athletic facilities in the region. The field
+                hosts inter-school tournaments, PE classes, and community sports events.
+            </p>
+
+            <!-- feature grid (sports details) -->
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <i class="fas fa-flag-checkered"></i>
+                    <h4>Multi-sport pitch</h4>
+                    <p>Soccer, football, rugby &amp; lacrosse</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-stopwatch"></i>
+                    <h4>Track &amp; field</h4>
+                    <p>100m, 400m, long jump, shot put</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <h4>Floodlit facility</h4>
+                    <p>Night matches &amp; evening training</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-people-group"></i>
+                    <h4>Spectator stands</h4>
+                    <p>500-seat covered grandstand</p>
+                </div>
+            </div>
+
+            <!-- stats -->
+            <div class="sports-stats">
+                <span><i class="fas fa-futbol"></i> 1 main pitch</span>
+                <span><i class="fas fa-running"></i> 8-lane track</span>
+                <span><i class="fas fa-basketball"></i> 4 courts</span>
+                <span><i class="fas fa-calendar-check"></i> 40+ matches/year</span>
+            </div>
+
+            <p style="margin-top: 1.2rem; font-size: 0.98rem; background: rgba(72, 219, 251, 0.08); padding: 0.8rem 1rem; border-radius: 20px; border: 1px solid rgba(72, 219, 251, 0.1); color: rgba(255,255,255,0.85);">
+                <i class="fas fa-handshake" style="color:#48dbfb;"></i>
+                <strong>Community use:</strong> The field is available for local clubs and
+                events outside school hours. Contact the athletics office for booking.
+            </p>
+        </div>
+
+        <!-- right panel: quick reference, hours, contacts -->
+        <div class="sports-side">
+            <h3><i class="fas fa-clock"></i> Field services</h3>
+
+            <div class="side-item">
+                <i class="fas fa-whistle"></i>
+                <div><strong>Equipment rental</strong><span>Balls, cones, goals, &amp; training gear</span></div>
+            </div>
+            <div class="side-item">
+                <i class="fas fa-first-aid"></i>
+                <div><strong>First aid &amp; safety</strong><span>Certified staff &amp; AED on site</span></div>
+            </div>
+            <div class="side-item">
+                <i class="fas fa-shower"></i>
+                <div><strong>Locker rooms</strong><span>Showers &amp; changing facilities</span></div>
+            </div>
+            <div class="side-item">
+                <i class="fas fa-camera"></i>
+                <div><strong>Live streaming</strong><span>Select matches broadcast online</span></div>
+            </div>
+
+            <hr class="divider" />
+
+            <h3 style="margin-top: 0;"><i class="fas fa-calendar-day"></i> Field hours</h3>
+            <div class="hours-box">
+                <p><span class="day">Monday – Friday</span> <span>6:00 AM – 9:00 PM</span></p>
+                <p><span class="day">Saturday</span> <span>7:00 AM – 8:00 PM</span></p>
+                <p><span class="day">Sunday</span> <span>8:00 AM – 6:00 PM</span></p>
+                <p>
+                    <i class="fas fa-star"></i> Floodlights available until 10:00 PM
+                </p>
+            </div>
+
+            <div class="contact-box">
+                <p>
+                    <i class="fas fa-phone"></i>
+                    <strong>Athletics desk:</strong> +1 (555) 204‑5789
+                    <br />
+                    <i class="fas fa-envelope" style="margin-top: 0.2rem;"></i>
+                    sports@school.edu
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div class="footer-note">
+        <span><i class="fas fa-location-dot"></i> Behind Main Building · 1200 Academy Dr</span>
+        <span><i class="fas fa-tree"></i> 12-acre campus</span>
+        <span><i class="fas fa-wheelchair"></i> Accessible viewing areas</span>
+        <span><i class="fas fa-mug-saucer"></i> Concession stand</span>
+    </div>
+
+</div>
+
+<!-- script for carousel dots -->
+<script>
+    (function() {
+        const track = document.getElementById('carouselTrack');
+        const indicators = document.querySelectorAll('#indicators span');
+        if (!track || !indicators.length) return;
+
+        function updateActiveDot() {
+            const scrollLeft = track.scrollLeft;
+            const slideWidth = track.querySelector('.carousel-slide')?.clientWidth || 1;
+            const index = Math.round(scrollLeft / slideWidth);
+            const clamped = Math.min(Math.max(index, 0), indicators.length - 1);
+            indicators.forEach((dot, i) => {
+                dot.classList.toggle('active', i === clamped);
+            });
+        }
+
+        track.addEventListener('scroll', () => requestAnimationFrame(updateActiveDot));
+        window.addEventListener('resize', updateActiveDot);
+        setTimeout(updateActiveDot, 120);
+
+        indicators.forEach((dot, idx) => {
+            dot.addEventListener('click', function() {
+                const slide = track.querySelectorAll('.carousel-slide')[idx];
+                if (slide) {
+                    slide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+                }
+            });
+        });
+    })();
+</script>
+
+</body>
+</html>
