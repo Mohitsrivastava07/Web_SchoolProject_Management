@@ -1,36 +1,36 @@
-# Multi-stage Dockerfile for Spring Boot + Java 21 + Maven
-# Build stage: Maven + Java 21
-FROM maven:3.9.9-eclipse-temurin-17 AS build
+# Stage 1: Build the application
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 
+# Set working directory
 WORKDIR /app
 
-# Copy Maven files first to improve Docker layer caching
+# Copy pom.xml and download dependencies
 COPY pom.xml .
-COPY mvnw .
-COPY .mvn .mvn
+RUN mvn dependency:go-offline -B
 
-# Make Maven wrapper executable (also keeps the project usable if you later switch to ./mvnw)
-RUN chmod +x mvnw
-
-# Download dependencies
-RUN mvn -B dependency:go-offline
-
-# Copy application source
+# Copy source code and build
 COPY src ./src
+RUN mvn clean package -DskipTests
 
-# Build Spring Boot executable JAR
-RUN mvn -B clean package -DskipTests
+# Stage 2: Run the application
+FROM eclipse-temurin:17-jre-alpine
 
-# Runtime stage: Java 21 only
-FROM eclipse-temurin:17-jre
-
+# Set working directory
 WORKDIR /app
 
-# Copy the built Spring Boot JAR
-COPY --from=build /app/target/*.jar /app/app.jar
+# Copy the JAR file from build stage
+COPY --from=build /app/target/SchoolProject-*.jar app.jar
 
-# Render supplies PORT at runtime; default to 8080 for local Docker runs
+# Create a non-root user
+RUN addgroup -S spring && adduser -S spring -G spring
+USER spring
+
+# Expose port
 EXPOSE 8080
 
-# Use Render's PORT when available, otherwise 8080
-ENTRYPOINT ["sh", "-c", "java -jar /app/app.jar --server.port=${PORT:-8080}"]
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=30s --retries=3 \
+    CMD wget --quiet --tries=1 --spider http://localhost:8080/actuator/health || exit 1
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]

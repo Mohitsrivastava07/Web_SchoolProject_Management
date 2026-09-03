@@ -68,7 +68,7 @@ public class AdminAddTeacherController {
 
         List<AdminAddTeacher> teacher =
                 adminAddTeacherRepository.findByEmployeeId(teacherId);
-        if (teacher.isEmpty()) {
+        if (!teacher.isEmpty()) {
             model.addAttribute("teacherFound", teacher.get(0));
             return "update_teacher";
         }

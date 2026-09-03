@@ -53,7 +53,7 @@ public class AdminAddStudentController {
 
         List<AdminAddStudent> student =
                 adminAddStudentRepository.findByRollNumber(studentRollNumber);
-        if (student.isEmpty()) {
+        if (!student.isEmpty()) {
             model.addAttribute("studentFound", student.get(0));
             return "update_student";
         }
