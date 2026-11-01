@@ -46,6 +46,7 @@ public class SpringConfig {
         return security
                 .csrf(csrf->csrf.disable())
                 .authorizeHttpRequests(auth->auth
+                        .requestMatchers("/").permitAll()
                         .requestMatchers("/register", "/register/**").permitAll()
                         .requestMatchers("/login", "/login/**").permitAll()
                         .requestMatchers("/user/**").hasRole("USER")

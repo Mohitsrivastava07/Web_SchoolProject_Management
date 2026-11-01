@@ -1,13 +1,28 @@
 package com.school.schoolproject.controller;
 
-import com.school.schoolproject.entities.AdminAddStudent;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.core.Authentication;
 
 @Controller
 public class AllFormController {
+
+    //------------------------------------------ root url ------------------------------------------------------
+    @GetMapping("/")
+    public String root(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()
+                || authentication.getPrincipal().equals("anonymousUser")) {
+            return "redirect:/login";
+        }
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        return isAdmin ? "redirect:/admin/home" : "redirect:/user/home";
+    }
+
+
+
+
+
 
     //----------------------------------------- admin dashboard --------------------------------------------------
     @GetMapping("/admin/dashboard")
