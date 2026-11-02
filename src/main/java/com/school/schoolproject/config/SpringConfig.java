@@ -56,7 +56,7 @@ public class SpringConfig {
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .successHandler(regFormSuccessHandler())
-                        .failureUrl("/login?error=true")
+//                        .failureUrl("/login?error=true")
                         .permitAll())
                 .logout(logout->logout
                         .logoutUrl("/logout")
