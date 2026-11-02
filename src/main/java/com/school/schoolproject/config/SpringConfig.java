@@ -49,7 +49,7 @@ public class SpringConfig {
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/register", "/register/**").permitAll()
                         .requestMatchers("/login", "/login/**").permitAll()
-                        .requestMatchers("/user/**").hasRole("USER")
+                        .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(form->form
