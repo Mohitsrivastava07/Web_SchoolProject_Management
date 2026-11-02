@@ -29,21 +29,23 @@ public class RegFormController {
 
     @PostMapping("/register")
     public String regUserForm(@ModelAttribute RegForm regForm, RedirectAttributes ra) {
-        if (!regFormRepository.findByUsername(regForm.getUsername()).isEmpty()) {
-            ra.addFlashAttribute("error", "Username already exists");
-            return "redirect:/register";
-        }
         try {
+            if (!regFormRepository.findByUsername(regForm.getUsername()).isEmpty()) {
+                ra.addFlashAttribute("error", "Username already exists");
+                return "redirect:/register";
+            }
             regForm.setPassword(passwordEncoder.encode(regForm.getPassword()));
             if (!StringUtils.hasText(regForm.getRoles())) {
                 regForm.setRoles("USER");
             }
             regFormRepository.save(regForm);
-        } catch (org.springframework.dao.DataIntegrityViolationException e) {
-            ra.addFlashAttribute("error", "Registration failed: " + e.getMostSpecificCause().getMessage());
+            return "redirect:/login?registered=true";
+        } catch (Exception e) {
+            e.printStackTrace();   // Render Logs mein poora error dikhega
+            ra.addFlashAttribute("error", "Error: " + e.getClass().getSimpleName() + " - "
+                    + (e.getCause() != null ? e.getCause().getMessage() : e.getMessage()));
             return "redirect:/register";
         }
-        return "redirect:/login?registered=true";
     }
 
     @GetMapping("/check/regist/byUsername")

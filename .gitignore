@@ -51,10 +51,10 @@ Thumbs.db
 .env
 
 ### Local configuration ###
-application.properties
+#application.properties
 application-local.properties
 application-dev.properties
-application-prod.properties
+#application-prod.properties
 application-*.local.properties
 *.local.properties
 *.secret.properties
