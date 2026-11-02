@@ -28,12 +28,21 @@ public class RegFormController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public String regUserForm(@ModelAttribute RegForm regForm) {
-        regForm.setPassword(passwordEncoder.encode(regForm.getPassword()));
-        if (!StringUtils.hasText(regForm.getRoles())) {
-            regForm.setRoles("USER");
+    public String regUserForm(@ModelAttribute RegForm regForm, RedirectAttributes ra) {
+        if (!regFormRepository.findByUsername(regForm.getUsername()).isEmpty()) {
+            ra.addFlashAttribute("error", "Username already exists");
+            return "redirect:/register";
         }
-        regFormRepository.save(regForm);
+        try {
+            regForm.setPassword(passwordEncoder.encode(regForm.getPassword()));
+            if (!StringUtils.hasText(regForm.getRoles())) {
+                regForm.setRoles("USER");
+            }
+            regFormRepository.save(regForm);
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            ra.addFlashAttribute("error", "Registration failed: " + e.getMostSpecificCause().getMessage());
+            return "redirect:/register";
+        }
         return "redirect:/login?registered=true";
     }
 
